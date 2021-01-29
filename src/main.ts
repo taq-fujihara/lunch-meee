@@ -26,13 +26,23 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 const ui = new firebaseui.auth.AuthUI(firebase.auth())
-
+const db = firebase.firestore()
 const auth = firebase.auth()
 
 ui.disableAutoSignIn();
 
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async (user) => {
   if (user) {
+    console.log('user', user.uid, user.displayName);
+    
+    await db.collection("users").doc(user.uid).set(
+      {
+        displayName: user.displayName,
+        email: user.email,
+      },
+      { merge: true },
+    );
+
     createApp(App)
       .use(store)
       .use(router)
