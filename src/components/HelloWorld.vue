@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <div>
+      <button @click="signout">Signout</button>
+    </div>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -128,6 +131,8 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import firebase from "firebase/app"
+import "firebase/auth";
 
 @Options({
   props: {
@@ -136,6 +141,12 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class HelloWorld extends Vue {
   msg!: string;
+
+  async signout() {
+    console.log('sign out');
+    await firebase.auth().signOut();
+    window.location.reload();
+  }
 }
 </script>
 
