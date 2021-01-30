@@ -1,5 +1,7 @@
 # lunch-meee
 
+![logo](./src/assets/logo.png)
+
 ## Project setup
 ```
 npm install
