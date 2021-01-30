@@ -25,7 +25,7 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button">
+            <a class="button" @click="signout">
               Sign Out
             </a>
           </div>
@@ -34,3 +34,16 @@
     </div>
   </nav>
 </template>
+
+<script lang="ts">
+import { Vue } from "vue-class-component";
+import firebase from "firebase/app"
+import "firebase/auth";
+
+export default class Navbar extends Vue {
+  async signout() {
+    await firebase.auth().signOut();
+    window.location.reload();
+  }
+}
+</script>

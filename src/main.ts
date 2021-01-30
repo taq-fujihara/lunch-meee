@@ -33,8 +33,9 @@ ui.disableAutoSignIn();
 
 auth.onAuthStateChanged(async (user) => {
   if (user) {
-    console.log('user', user.uid, user.displayName);
-    
+    const userDoc = db.collection("users").doc(user.uid);
+    const userExists = (await userDoc.get()).exists
+
     await db.collection("users").doc(user.uid).set(
       {
         displayName: user.displayName,
@@ -42,6 +43,16 @@ auth.onAuthStateChanged(async (user) => {
       },
       { merge: true },
     );
+
+    if (!userExists) {
+      const initialMessages = [
+        "昼休憩入ります。",
+        "昼休憩終了",
+      ];
+      await Promise.all(initialMessages.map(async m => {
+        db.collection(`users/${userDoc.id}/messages`).add({ text: m })
+      }))
+    }
 
     createApp(App)
       .use(store)

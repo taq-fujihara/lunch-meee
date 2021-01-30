@@ -1,17 +1,6 @@
 <template>
   <div>
     <div class="field">
-      <label class="label">名前</label>
-      <div class="control">
-        <input
-          class="input"
-          type="text"
-          placeholder="im-going-lunch"
-          :value="name"
-          @input="$emit('name', $event.target.value)">
-      </div>
-    </div>
-    <div class="field">
       <label class="label">送信するメッセージ</label>
       <div class="control">
         <textarea
@@ -37,20 +26,15 @@ import { Options, Vue  } from "vue-class-component";
 
 @Options({
   props: {
-    name: String,
     text: String,
+    url: String,
   },
   emits: {
-    name: String,
     text: String,
   }
 })
 export default class Message extends Vue {
-  name!: string;
   text!: string;
-
-  public get url() : string {
-    return `${window.location.href}send/${this.name}`;
-  }
+  url!: string;
 }
 </script>
