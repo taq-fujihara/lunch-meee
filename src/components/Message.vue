@@ -5,10 +5,11 @@
       <div class="control">
         <textarea
           class="textarea"
-          rows="3"
+          rows="2"
           placeholder="昼休憩に入ります。"
           :value="text"
-          @input="$emit('text', $event.target.value)">
+          @input="$emit('text', $event.target.value)"
+          :readonly="readonly">
         </textarea>
       </div>
     </div>
@@ -26,15 +27,23 @@ import { Options, Vue  } from "vue-class-component";
 
 @Options({
   props: {
+    id: String,
     text: String,
-    url: String,
+    readonly: Boolean,
   },
   emits: {
     text: String,
   }
 })
 export default class Message extends Vue {
+  id!: string;
   text!: string;
-  url!: string;
+  readonly = false;
+
+  get url() {
+    const protocol = window.location.protocol
+    const host = window.location.host
+    return `${protocol}//${host}/messages/send/${this.id}`
+  }
 }
 </script>
